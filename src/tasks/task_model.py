@@ -2,6 +2,8 @@ from typing import List
 
 
 class TaskModel:
+    FORMAT = 'Id-Name-Description-Tags-Done'
+
     def __init__(self, title, description='', tags=None):
         self.id = ''
         self.title = title
