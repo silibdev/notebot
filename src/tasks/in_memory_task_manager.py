@@ -19,6 +19,9 @@ class InMemoryTaskManager(TaskManagerAbstract):
         self._task_list[task_id] = task
         return task
 
+    def modify_task(self, task):
+        return task
+
     def remove_task(self, task_id):
         task_removed = self._task_list.pop(task_id)
         return task_removed

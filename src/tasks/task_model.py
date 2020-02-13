@@ -3,8 +3,8 @@ from enum import Enum
 
 
 class Priority(Enum):
-    HIGH = 'high'
-    MEDIUM = 'medium'
+    HIGH = 'High'
+    MEDIUM = 'Medium'
 
     def __str__(self):
         return self.value
@@ -22,12 +22,10 @@ class TaskModel:
         self.isDone = False
 
     def __str__(self):
-        task = '#{}'.format(self.id)
+        task = '{}\n'.format(self.id)
 
         if self.priority:
             task += ':{}:'.format(self.priority)
-        else:
-            task += ' '
 
         task += '{}'.format(self.title)
         task += '\n'
@@ -39,6 +37,6 @@ class TaskModel:
             task += '{}\n'.format(self.due_date.strftime('%d-%b-%y %H:%M'))
 
         if self.isDone:
-            task += 'DONE'
+            task += 'DONE\n'
 
         return task

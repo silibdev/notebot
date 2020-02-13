@@ -1,7 +1,11 @@
-from src.tasks.in_memory_task_manager import InMemoryTaskManager
 from src.tasks.task_model import TaskModel, Priority
 
-task_manager = InMemoryTaskManager()
+# from src.tasks.in_memory_task_manager import InMemoryTaskManager
+# task_manager = InMemoryTaskManager()
+
+from src.tasks.notion_task_manager import NotionTaskManager
+from src.config import BLOCK_URL, NOTION_TOKEN
+task_manager = NotionTaskManager(NOTION_TOKEN, BLOCK_URL)
 
 
 def main():
@@ -17,6 +21,7 @@ def main():
     print('')
 
     add1.due_date = datetime.now()
+    task_manager.modify_task(add1)
     print('added due date today to task 1')
     print(task_manager)
     print('')
@@ -27,11 +32,13 @@ def main():
     print('')
 
     add2.priority = Priority.HIGH
+    task_manager.modify_task(add2)
     print('set priority high to task 2')
     print(task_manager)
     print('')
 
     add2.isDone = True
+    task_manager.modify_task(add2)
     print('done task 2')
     print(task_manager)
     print('')

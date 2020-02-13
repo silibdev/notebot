@@ -16,6 +16,9 @@ class TaskManagerAbstract:
     def add_task(self, task: TaskModel) -> TaskModel:
         pass
 
+    def modify_task(self, task: TaskModel) -> TaskModel:
+        pass
+
     def remove_task(self, task_id: str) -> TaskModel:
         pass
 
