@@ -11,9 +11,8 @@ class Priority(Enum):
 
 
 class TaskModel:
-    FORMAT = 'Id-Name-Description-Tags-Done'
 
-    def __init__(self, title, description='', priority: Priority=None, due_date: datetime = None):
+    def __init__(self, title, description='', priority: Priority = None, due_date: datetime = None):
         self.id = ''
         self.title = title
         self.description = description
@@ -28,15 +27,14 @@ class TaskModel:
             task += ':{}:'.format(self.priority)
 
         task += '{}'.format(self.title)
-        task += '\n'
 
         if self.description:
-            task += '{}\n'.format(self.description)
+            task += '\n{}'.format(self.description)
 
         if self.due_date:
-            task += '{}\n'.format(self.due_date.strftime('%d-%b-%y %H:%M'))
+            task += '\n{}'.format(self.due_date.strftime('%d-%b-%y %H:%M'))
 
         if self.isDone:
-            task += 'DONE\n'
+            task += '\nDONE'
 
         return task

@@ -20,13 +20,13 @@ class NotionTaskManager(TaskManagerAbstract):
     def get_tasks_list(self):
         self._task_list = {}
         self._map_task_row = {}
-        for row in self._cv.collection.get_rows():
+        for row in self._cv.default_query().execute():
             self._map_task_row[row.id] = row
             self._task_list[row.id] = NotionTaskManager._row_to_task(row, row.id)
-        return self._task_list
+        return self._task_list.values()
 
     def get_task(self, task_id):
-        return self._row_to_task(self._task_list[task_id])
+        return self._task_list[task_id]
 
     def add_task(self, task):
         row = self._cv.collection.add_row()
@@ -46,10 +46,13 @@ class NotionTaskManager(TaskManagerAbstract):
 
     def remove_task(self, task_id):
         row = self._map_task_row[task_id]
-        task = NotionTaskManager._row_to_task(row, task_id)
-        row.remove()
-        self.get_tasks_list()
-        return task
+        if row is not None:
+            task = NotionTaskManager._row_to_task(row, task_id)
+            row.remove()
+            self.get_tasks_list()
+            return task
+        else:
+            return None
 
     @staticmethod
     def _row_to_task(row, task_id):
