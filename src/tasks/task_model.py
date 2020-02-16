@@ -24,7 +24,7 @@ class TaskModel:
         task = '{}\n'.format(self.id)
 
         if self.priority:
-            task += ':{}:'.format(self.priority)
+            task += '[{}] '.format(self.priority)
 
         task += '{}'.format(self.title)
 
