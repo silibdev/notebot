@@ -33,7 +33,7 @@ class BotService:
         try:
             task_title = message.text
             self.task_in_creation = TaskModel(task_title)
-            markup = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True)
+            markup = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True)
             high_button = types.KeyboardButton('High')
             medium_button = types.KeyboardButton('Medium')
             none_button = types.KeyboardButton('None')
@@ -52,7 +52,8 @@ class BotService:
                 self.task_in_creation.priority = Priority.MEDIUM
 
             task_created = task_manager.add_task(self.task_in_creation)
-            self._send_message(message, str(task_created) + '\n--Created--')
+            markup_remove = types.ReplyKeyboardRemove()
+            self._send_message(message, str(task_created) + '\n--Created--', reply_markup=markup_remove)
         except Exception as e:
             print(e)
             self._send_message(message, 'Error while creating the task')
