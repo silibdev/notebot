@@ -63,5 +63,7 @@ def welcome_page():
 if __name__ == "__main__":
     bot.polling()
 else:
-    bot.remove_webhook()
-    bot.set_webhook(url=WEBHOOK_URL + TELEGRAM_BOT_TOKEN)
+    webhook_url = WEBHOOK_URL + TELEGRAM_BOT_TOKEN
+    if webhook_url != bot.get_webhook_info().url:
+        bot.remove_webhook()
+        bot.set_webhook(url=webhook_url)
