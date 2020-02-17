@@ -56,9 +56,12 @@ class NotionTaskManager(TaskManagerAbstract):
 
     @staticmethod
     def _row_to_task(row, task_id):
-        priority = Priority.HIGH if row.priority == Priority.HIGH.value \
-            else Priority.MEDIUM if row.priority == Priority.HIGH.value \
-            else None
+        if row.priority == Priority.HIGH.value:
+            priority = Priority.HIGH
+        elif row.priority == Priority.MEDIUM.value:
+            priority = Priority.MEDIUM
+        else:
+            priority = None
         due_date = None if row.due_date is None else row.due_date.start
         task = TaskModel(row.title, row.description, priority, due_date)
         task.id = task_id
