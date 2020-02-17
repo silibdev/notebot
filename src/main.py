@@ -2,13 +2,15 @@ import telebot
 import logging
 from src.authorization import authorize
 from src.bot_service import BotService
-from src.config import TELEGRAM_BOT_TOKEN
-
+from src.config import TELEGRAM_BOT_TOKEN, WEBHOOK_URL
+from flask import Flask, request
 
 bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN)
 telebot.logger.setLevel(logging.DEBUG)
 
 bot_service = BotService(bot)
+
+app = Flask(__name__)
 
 
 @bot.message_handler(commands=['start', 'help'])
@@ -47,9 +49,19 @@ def add_task(message):
     bot_service.add_task(message)
 
 
-def main():
+@app.route('/' + TELEGRAM_BOT_TOKEN, methods=['POST'])
+def get_message():
+    bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
+    return "!", 200
+
+
+@app.route("/")
+def welcome_page():
+    return "Here a telegram bot is trying to work. Leave me alone please :D", 200
+
+
+if __name__ == "__main__":
     bot.polling()
-
-
-if __name__ == '__main__':
-    main()
+else:
+    bot.remove_webhook()
+    bot.set_webhook(url=WEBHOOK_URL + TELEGRAM_BOT_TOKEN)
